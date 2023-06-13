@@ -2,8 +2,8 @@ import logging
 
 from aiogram import Bot, Dispatcher
 from fastapi import FastAPI
-from config import get_config
 from basic_handlers import router as basic_router
+from config import Settings
 
 
 def get_webhook_path(conf):
@@ -29,12 +29,12 @@ def setup_dispatcher():
     )
 
     # получение класса хранящего конфигурируемые параметры
-    conf = get_config()
+    sett = Settings()
 
     logging.info("Application started")
 
     # создание и запуск объекта бота
-    bot = Bot(token=conf.bot_token.get_secret_value())
+    bot = Bot(token=sett.bot_token.get_secret_value())
     dispatcher = Dispatcher()
 
     dispatcher.include_router(basic_router)
@@ -44,10 +44,10 @@ def setup_dispatcher():
 
 def setup_app():
     app = FastAPI(openapi_url=None, docs_url=None, redoc_url=None)
-    conf = get_config()
+    sett = Settings()
 
-    webhook_path = get_webhook_path(conf)
-    webhook_url = get_webhook_url(conf, webhook_path)
+    webhook_path = get_webhook_path(sett)
+    webhook_url = get_webhook_url(sett, webhook_path)
 
     dispatcher, bot = setup_dispatcher()
 
