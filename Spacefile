@@ -1,0 +1,13 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+micros:
+  - name: blog-example
+    src: .
+    engine: python3.9
+    public_routes:
+      - "/*"
+    presets:
+      env:
+        - name: BOT_TOKEN
+          description: Bot token
+          default: "deta is cool"
